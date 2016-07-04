@@ -10,23 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
-
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
         etPassword = (EditText)findViewById(R.id.etPassword);
         bLogin = (Button)findViewById(R.id.bLogin);
         bRegister = (Button)findViewById(R.id.bRegister);
-
-        final String email = etEmail.getText().toString();
-        final String password = etPassword.getText().toString();
 
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,25 +53,50 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private class MyAsyncTask extends AsyncTask<String, Integer, Double> {
+    private class MyAsyncTask extends AsyncTask<String, Integer, JSONObject> {
 
         @Override
-        protected Double doInBackground(String... params) {
+        protected JSONObject doInBackground(String... params) {
             // TODO Auto-generated method stub
-            postData();
-            return null;
+            JSONObject myJson = postData();
+
+            return myJson;
         }
 
-        protected void onPostExecute(Double result){
-            Toast.makeText(getApplicationContext(), "command sent", Toast.LENGTH_LONG).show();
+        protected void onPostExecute(JSONObject myJson){
+            String token = "";
+            JSONObject jsonStatus = null;
+            try {
+                jsonStatus = myJson.getJSONObject("status");
+                Boolean status =jsonStatus.getBoolean("success");
+                String message = jsonStatus.getString("message");
+                if(status == false){
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    JSONObject jsonData = myJson.getJSONObject("data");
+                    token = jsonData.getString("token");
+                    if(token != "") {
+                        Intent intent = new Intent(MainActivity.this, TaskToday.class);
+                        intent.putExtra("token", token);
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         protected void onProgressUpdate(Integer... progress){
+
         }
 
-        public void postData() {
+        public JSONObject postData() {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost("http://10.0.2.2:8000/api/v1/users/session/");
+
+            JSONObject myJson = null;
 
             try {
                 // Add your data
@@ -95,10 +111,10 @@ public class MainActivity extends AppCompatActivity {
 
                 // Execute HTTP Post Request
                 HttpResponse response = httpclient.execute(httppost);
+
                 String temp = EntityUtils.toString(response.getEntity());
-                //Toast.makeText(getApplicationContext(), temp, Toast.LENGTH_LONG).show();
-                Log.i("tag", temp);
-                //Log.d("Http Response:", response.toString());
+                myJson = new JSONObject(temp);
+
 
             } catch (ClientProtocolException e) {
                 // TODO Auto-generated catch block
@@ -109,7 +125,14 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
                 //createDialog("Error", "Cannot Estabilish Connection");
             }
+            return myJson;
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }

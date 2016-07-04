@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskActivity extends AppCompatActivity {
+public class TaskWeek extends AppCompatActivity {
     private List<Task> taskList = new ArrayList<>();
     private RecyclerView recyclerView;
     private TaskAdapter mAdapter;
@@ -62,13 +62,13 @@ public class TaskActivity extends AppCompatActivity {
         addNewTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TaskActivity.this, AddTaskActivity.class);
+                Intent intent = new Intent(TaskWeek.this, AddTaskActivity.class);
                 intent.putExtra("token", token);
                 startActivity(intent);
             }
         });
 
-        final GestureDetector mGestureDetector = new GestureDetector(TaskActivity.this, new GestureDetector.SimpleOnGestureListener() {
+        final GestureDetector mGestureDetector = new GestureDetector(TaskWeek.this, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
@@ -86,11 +86,11 @@ public class TaskActivity extends AppCompatActivity {
                 if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
 
                     int pos = recyclerView.getChildLayoutPosition(child);
-                    Intent intent = new Intent(TaskActivity.this, UpdateDeleteActivity.class);
+                    Intent intent = new Intent(TaskWeek.this, UpdateDeleteActivity.class);
                     intent.putExtra("token", token);
                     intent.putExtra("id", hash.get(pos).toString());
                     startActivity(intent);
-                    //Toast.makeText(TaskActivity.this, ""+hash.get(pos), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Taskweek.this, ""+hash.get(pos), Toast.LENGTH_SHORT).show();
                     return true;
 
                 }
@@ -172,7 +172,7 @@ public class TaskActivity extends AppCompatActivity {
         public JSONObject postData() {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
-            HttpGet httpget = new HttpGet("http://10.0.2.2:8000/api/v1/tasks/");
+            HttpGet httpget = new HttpGet("http://10.0.2.2:8000/api/v1/tasks/?days=6");
 
             JSONObject myJson = null;
 
@@ -283,7 +283,7 @@ public class TaskActivity extends AppCompatActivity {
         }
 
         else if(id == R.id.action_today){
-            Intent i = new Intent(TaskActivity.this, TaskToday.class);
+            Intent i = new Intent(TaskWeek.this, TaskToday.class);
             i.putExtra("token", token);
             startActivity(i);
             finish();
@@ -291,14 +291,14 @@ public class TaskActivity extends AppCompatActivity {
         }
 
         else if(id == R.id.action_week){
-            Intent i = new Intent(TaskActivity.this, TaskWeek.class);
-            i.putExtra("token", token);
-            startActivity(i);
-            finish();
             return true;
         }
 
         else if(id == R.id.action_all){
+            Intent i = new Intent(TaskWeek.this, TaskActivity.class);
+            i.putExtra("token", token);
+            startActivity(i);
+            finish();
             return true;
         }
 

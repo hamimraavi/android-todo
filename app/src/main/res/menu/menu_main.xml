@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="200"
+        android:title="Logout"
+        app:showAsAction="ifRoom"
+        ></item>
+    <item
+        android:id="@+id/action_today"
+        android:orderInCategory="300"
+        android:title="Today"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/action_week"
+        android:orderInCategory="300"
+        android:title="This Week"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/action_all"
+        android:orderInCategory="300"
+        android:title="All Tasks"
+        app:showAsAction="ifRoom"></item>
+</menu>
