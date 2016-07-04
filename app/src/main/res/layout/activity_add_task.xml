@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.grofers.hamimraavi.todo.AddTaskActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:ems="10"
+                android:hint="Description"
+                android:inputType="textMultiLine" />
+
+            <Switch
+                android:id="@+id/switchDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/etDescription"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="Date" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/switchDate"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_toRightOf="@id/switchDate"
+                android:text="New Text" />
+
+            <Button
+                android:id="@+id/bSetDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/tvDate"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:onClick="setDate"
+                android:text="Set Date" />
+
+
+            <Switch
+                android:id="@+id/switchTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/switchDate"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="Time" />
+
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/switchTime"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_toRightOf="@id/switchTime"
+                android:text="New Text" />
+
+            <Button
+                android:id="@+id/bSetTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/tvTime"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:onClick="setTime"
+                android:text="Set Time" />
+
+            <Button
+                android:id="@+id/bAddTask"
+                android:text="Add Task"
+                android:layout_below="@id/switchTime"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>
